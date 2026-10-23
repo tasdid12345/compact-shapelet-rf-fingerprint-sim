@@ -24,6 +24,28 @@ python analysis.py
 ## Results
 Results are written to `results.json` (and a chart to `figures/`).
 
+## Results (latest run)
+
+On a simulated I/Q RF-fingerprinting dataset with a shifted, lower-SNR test domain, a standard fixed-window random-shapelet model with an MLP classifier reached 15.1% accuracy, while my multi-length k-means shapelet model with class-balanced LightGBM reached 21.7%, a modest gain of 6.6 points.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.1513 |
+| baseline_score_std | 0.004643 |
+| baseline_f1 | 0.1176 |
+| baseline_f1_std | 0.0007987 |
+| baseline_in_domain_acc | 0.3828 |
+| improved_score | 0.217 |
+| improved_score_std | 0.005099 |
+| improved_f1 | 0.1988 |
+| improved_f1_std | 0.004248 |
+| improved_in_domain_acc | 0.8783 |
+| improvement | 0.06567 |
+
+Run on 2026-10-23. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Simulation is a stand-in for the paper's datasets; the paper's frozen-LLM model is not reproduced. Improvements bundle several changes (k-means shapelets, multi-length, statistics, GBM) without ablation. Device impairments and data are generated once with seed 42; seeds 42-44 vary shapelet sampling, k-means and classifiers only. CV is in-domain so cannot see the shift. Results depend on the chosen simulation parameters.
+
 ## Reference
 
 This project is motivated by the following paper:
