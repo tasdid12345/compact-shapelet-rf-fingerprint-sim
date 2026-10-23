@@ -1,0 +1,31 @@
+{
+  "question": "Can a compact, data-adaptive multi-length I/Q shapelet model with gradient boosting, and no LLM, beat a fixed-window random-shapelet baseline at identifying simulated wireless devices under a domain shift?",
+  "method": "Simulated QPSK I/Q frames (256 samples) from 10 devices with IQ imbalance, DC offset, CFO and PA nonlinearity. Train: high SNR, mild channel. Shifted test: lower SNR, new random multipath and phase offsets. Both models use the same min-distance shapelet code and shapelet budget; hyper-parameters tuned by CV on training data only.",
+  "dataset": {
+    "name": "Simulated I/Q RF-fingerprinting frames (seeded numpy)",
+    "source_url": "self-generated (no download)",
+    "n_rows": 4000,
+    "n_train": 2400,
+    "n_test": 1000,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "accuracy on shifted test domain",
+  "higher_is_better": true,
+  "baseline": "40 random fixed-length (32) 2D I/Q shapelets cut from training frames, min-distance features, StandardScaler + sklearn MLP.",
+  "improved": "40 variable-length (16/32/64) shapelets from k-means on training windows, plus 8 phase-invariant statistics, class-balanced LightGBM with a small CV-tuned grid.",
+  "metrics": {
+    "baseline_score": 0.15133333333333332,
+    "baseline_score_std": 0.004642796092394711,
+    "baseline_f1": 0.11755171954546854,
+    "baseline_f1_std": 0.0007986963543141907,
+    "baseline_in_domain_acc": 0.3827777777777777,
+    "improved_score": 0.217,
+    "improved_score_std": 0.00509901951359279,
+    "improved_f1": 0.19884570273213323,
+    "improved_f1_std": 0.004247754673591801,
+    "improved_in_domain_acc": 0.8783333333333334,
+    "improvement": 0.06566666666666668
+  },
+  "notes": "Simulation is a stand-in for the paper's datasets; the paper's frozen-LLM model is not reproduced. Improvements bundle several changes (k-means shapelets, multi-length, statistics, GBM) without ablation. Device impairments and data are generated once with seed 42; seeds 42-44 vary shapelet sampling, k-means and classifiers only. CV is in-domain so cannot see the shift. Results depend on the chosen simulation parameters."
+}
